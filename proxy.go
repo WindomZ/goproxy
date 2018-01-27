@@ -102,7 +102,6 @@ func (proxy *ProxyHttpServer) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 
 		var err error
 		ctx.Logf("Got request %v %v %v %v", r.URL.Path, r.Host, r.Method, r.URL.String())
-
 		if (proxy.isReverseProxy && r.URL.IsAbs()) || (!proxy.isReverseProxy && !r.URL.IsAbs()) {
 			proxy.NonproxyHandler.ServeHTTP(w, r)
 			return

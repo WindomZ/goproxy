@@ -186,7 +186,6 @@ func (proxy *ProxyHttpServer) handleHttps(w http.ResponseWriter, r *http.Request
 			}
 			defer rawClientTls.Close()
 			clientTlsReader := bufio.NewReader(rawClientTls)
-
 			for !isEof(clientTlsReader) {
 				req, err := http.ReadRequest(clientTlsReader)
 				var ctx = &ProxyCtx{Req: req, Session: atomic.AddInt64(&proxy.sess, 1), proxy: proxy}
@@ -197,7 +196,6 @@ func (proxy *ProxyHttpServer) handleHttps(w http.ResponseWriter, r *http.Request
 					ctx.Warnf("Cannot read TLS request from mitm'd client %v %v", r.Host, err)
 					return
 				}
-
 				req.RemoteAddr = r.RemoteAddr // since we're converting the request, need to carry over the original connecting IP as well
 				ctx.Logf("req %v", r.Host)
 
@@ -228,7 +226,6 @@ func (proxy *ProxyHttpServer) handleHttps(w http.ResponseWriter, r *http.Request
 					}
 					ctx.Logf("resp %v", resp.Status)
 				}
-
 				resp = proxy.filterResponse(resp, ctx)
 				defer resp.Body.Close()
 
